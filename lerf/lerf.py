@@ -27,6 +27,7 @@ class LERFModelConfig(NerfactoModelConfig):
     _target: Type = field(default_factory=lambda: LERFModel)
     clip_loss_weight: float = 0.1
     n_scales: int = 30
+    min_scale: float = 0.0
     max_scale: float = 1.5
     """maximum scale used to compute relevancy with"""
     num_lerf_samples: int = 24
@@ -84,7 +85,7 @@ class LERFModel(NerfactoModel):
             assert len(preset_scales) == len(self.image_encoder.positives)
             scales_list = preset_scales
         else:
-            scales_list = torch.linspace(0.0, self.config.max_scale, self.config.n_scales)
+            scales_list = torch.linspace(self.config.min_scale, self.config.max_scale, self.config.n_scales)
 
         # probably not a good idea bc it's prob going to be a lot of memory
         n_phrases = len(self.image_encoder.positives)
