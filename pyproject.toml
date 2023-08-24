@@ -11,6 +11,8 @@ dependencies=[
     "timm",
     "torchtyping",
     "tqdm",
+    "clip @ git+https://github.com/openai/CLIP.git",
+    "nerfstudio>=0.3.1"
 ]
 
 [tool.setuptools.packages.find]
