@@ -1,4 +1,5 @@
 from typing import Dict, List, Optional, Tuple
+import sys
 
 import numpy as np
 import torch
@@ -6,6 +7,7 @@ from lerf.lerf_fieldheadnames import LERFFieldHeadNames
 from torch import nn, Tensor
 from torch.nn.parameter import Parameter
 from jaxtyping import Float
+import sys
 
 from nerfstudio.cameras.rays import RaySamples
 from nerfstudio.data.scene_box import SceneBox
@@ -21,6 +23,10 @@ try:
     import tinycudann as tcnn
 except ImportError:
     pass
+except EnvironmentError as _exp:
+    if "Unknown compute capability" not in _exp.args[0]:
+        raise _exp
+    print("Could not load tinycudann: " + str(_exp), file=sys.stderr)
 
 
 class LERFField(Field):
